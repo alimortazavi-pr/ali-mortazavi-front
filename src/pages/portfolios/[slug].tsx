@@ -36,7 +36,7 @@ const SinglePortfolio: FC<singlePortfolioProps> = ({ portfolio }) => {
             {portfolio.images?.map((img) => (
               <SwiperSlide key={img} className="rounded-xl relative">
                 <Image
-                  src={`http://localhost:7770${img}`}
+                  src={`https://api.alimortazavi.org${img}`}
                   fill
                   alt=""
                   className="object-cover rounded-xl object-top"
@@ -59,7 +59,7 @@ const SinglePortfolio: FC<singlePortfolioProps> = ({ portfolio }) => {
             {portfolio.images?.map((img) => (
               <SwiperSlide key={img} className="rounded-xl relative">
                 <Image
-                  src={`http://localhost:7770${img}`}
+                  src={`https://api.alimortazavi.org${img}`}
                   fill
                   alt=""
                   className="object-cover rounded-xl object-top"

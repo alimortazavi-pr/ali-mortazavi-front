@@ -26,7 +26,7 @@ export const PortfoliosSection: FC<portfoliosSectionProps> = ({
           >
             <Image
               alt=""
-              src={`http://localhost:7770${portfolio.images[0]}`}
+              src={`https://api.alimortazavi.org${portfolio.images[0]}`}
               fill
               className="object-contain object-center rounded-2xl"
             />

@@ -22,7 +22,7 @@ const AboutMeModal: FC<aboutMeModalProps> = ({ isOpen, onOpen, onClose }) => {
   //Functions
   function downloadMyResume() {
     axios({
-      url: "http://localhost:7770/my-resume/Ali-Mortazavi.pdf",
+      url: "https://api.alimortazavi.org/my-resume/Ali-Mortazavi.pdf",
       method: "GET",
       responseType: "blob",
     })
