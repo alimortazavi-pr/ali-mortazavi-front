@@ -80,7 +80,7 @@ export default function Document() {
         <meta name="theme-color" content="#171717" />
       </Head>
       <body className="bg-[#0F0F0F]">
-        <ColorModeScript initialColorMode={"dark"} />
+        <ColorModeScript initialColorMode={"light"} />
         <Main />
         <NextScript />
       </body>
