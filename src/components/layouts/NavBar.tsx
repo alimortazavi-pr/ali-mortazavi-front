@@ -100,10 +100,10 @@ export const NavBar: FC = () => {
   return (
     <nav className="w-full bg-neutral-900 rounded-2xl lg:rounded-[1.8rem] relative">
       <div className="flex items-center justify-between p-4 lg:p-6 pr-[13px] lg:pr-[13px]">
-        <div className="font-bold text-lg lg:text-xl xl:text-2xl">
+        <Link href={"/"} className="font-bold text-lg lg:text-xl xl:text-2xl">
           <span className="text-gray-400">Ali</span>
           <span className="text-gray-100">Mortazavi</span>
-        </div>
+        </Link>
         <div
           className="text-gray-200 hover:bg-gray-600 hover:bg-opacity-30 flex items-center justify-center w-10 h-10 rounded-xl cursor-pointer duration-300"
           onClick={toggleMenu}

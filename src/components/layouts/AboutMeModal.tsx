@@ -41,7 +41,7 @@ const AboutMeModal: FC<aboutMeModalProps> = ({ isOpen, onOpen, onClose }) => {
       <ModalContent w={"100%"} maxWidth={"650px"} rounded={"2xl"}>
         <ModalCloseButton />
         <ModalHeader>
-          <span className="text-gray-800 xl:text-2xl">
+          <span className="text-gray-100 xl:text-2xl">
             About Me
           </span>
         </ModalHeader>

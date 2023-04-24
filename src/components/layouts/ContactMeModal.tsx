@@ -78,9 +78,7 @@ const ContactMeModal: FC<contactMeModalProps> = ({
       <ModalContent w={"100%"} maxWidth={"650px"} rounded={"2xl"}>
         <ModalCloseButton />
         <ModalHeader>
-          <span className="text-gray-800 xl:text-2xl">
-            Contact Me
-          </span>
+          <span className="text-gray-100 xl:text-2xl">Contact Me</span>
         </ModalHeader>
         <ModalBody>
           <div className="grid grid-cols-12 gap-3">
