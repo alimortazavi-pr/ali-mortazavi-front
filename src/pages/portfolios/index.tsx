@@ -34,7 +34,7 @@ export const ThePortfolios: FC<thePortfoliosProps> = ({
           >
             <Image
               alt=""
-              src={`https://api.alimortazavi.org${portfolio.images[0]}`}
+              src={`https://ali-mortazavi.cyclic.app${portfolio.images[0]}`}
               fill
               className="object-contain lg:object-cover object-center rounded-2xl"
             />
