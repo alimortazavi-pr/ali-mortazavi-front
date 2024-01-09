@@ -1,5 +1,4 @@
 import type { FC } from "react";
-import TestP from "@/assets/images/test-p.png";
 import Image from "next/image";
 import Link from "next/link";
 import { portfoliosSectionProps } from "@/common/types/portfolios.type";

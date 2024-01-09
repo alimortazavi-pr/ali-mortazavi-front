@@ -10,7 +10,6 @@ import {
   MySkillsSvg,
   TelegramSvg,
 } from "@/components/layouts/TheSvgs";
-import Link from "next/link";
 
 export const InfoSection: FC = () => {
   return (
