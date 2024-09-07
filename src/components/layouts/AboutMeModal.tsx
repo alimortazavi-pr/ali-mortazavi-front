@@ -22,7 +22,7 @@ const AboutMeModal: FC<aboutMeModalProps> = ({ isOpen, onOpen, onClose }) => {
   //Functions
   function downloadMyResume() {
     axios({
-      url: "https://ali-mortazavi.cyclic.app/my-resume/Ali-Mortazavi.pdf",
+      url: "https://pbudget.liara.run/my-resume/Ali-Mortazavi.pdf",
       method: "GET",
       responseType: "blob",
     })

@@ -36,7 +36,7 @@ const SinglePortfolio: FC<singlePortfolioProps> = ({ portfolio }) => {
             {portfolio.images?.map((img) => (
               <SwiperSlide key={img} className="rounded-xl relative">
                 <Image
-                  src={`https://ali-mortazavi.cyclic.app${img}`}
+                  src={`https://pbudget.liara.run${img}`}
                   fill
                   alt=""
                   className="object-cover rounded-xl object-top"
@@ -59,7 +59,7 @@ const SinglePortfolio: FC<singlePortfolioProps> = ({ portfolio }) => {
             {portfolio.images?.map((img) => (
               <SwiperSlide key={img} className="rounded-xl relative">
                 <Image
-                  src={`https://ali-mortazavi.cyclic.app${img}`}
+                  src={`https://pbudget.liara.run${img}`}
                   fill
                   alt=""
                   className="object-cover rounded-xl object-top"
