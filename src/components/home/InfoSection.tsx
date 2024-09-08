@@ -8,6 +8,7 @@ import {
   InstagramSvg,
   LinkedinSvg,
   MySkillsSvg,
+  NpmSvg,
   TelegramSvg,
 } from "@/components/layouts/TheSvgs";
 
@@ -59,18 +60,18 @@ export const InfoSection: FC = () => {
               filled
             />
           </a>
-          <a
-            href={"https://www.instagram.com/alimortazavi.dev"}
-            target="_blank"
-          >
-            <InstagramSvg
-              className="w-16 h-16 md:w-14 md:h-14 xl:w-[70px] xl:h-[70px] rounded-full text-gray-500 hover:text-[#B53798] duration-300"
-              filled
-            />
-          </a>
           <a href={"https://t.me/alimortazavi_dev"} target="_blank">
             <TelegramSvg
               className="w-16 h-16 md:w-14 md:h-14 xl:w-[70px] xl:h-[70px] rounded-full text-gray-500 hover:text-[#00A6DB] duration-300"
+              filled
+            />
+          </a>
+          <a
+            href={"https://www.npmjs.com/~alimortazavi"}
+            target="_blank"
+          >
+            <NpmSvg
+              className="w-16 h-16 md:w-14 md:h-14 xl:w-[70px] xl:h-[70px] rounded-full text-gray-500 hover:text-red-700 duration-300"
               filled
             />
           </a>

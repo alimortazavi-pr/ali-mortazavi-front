@@ -63,7 +63,7 @@ export const NavBar: FC = () => {
   //Functions
   function downloadMyResume() {
     axios({
-      url: "https://pbudget.liara.run/my-resume/Ali-Mortazavi.pdf",
+      url: "https://alimor.liara.run/my-resume/Ali-Mortazavi.pdf",
       method: "GET",
       responseType: "blob",
     })

@@ -10,7 +10,7 @@ export const HeroSection: FC = () => {
   //Functions
   function downloadMyResume() {
     axios({
-      url: "https://pbudget.liara.run/my-resume/Ali-Mortazavi.pdf",
+      url: "https://alimor.liara.run/my-resume/Ali-Mortazavi.pdf",
       method: "GET",
       responseType: "blob",
     })
@@ -27,7 +27,7 @@ export const HeroSection: FC = () => {
     <div className="flex flex-col gap-4 h-full">
       <div className="bg-neutral-900 w-full rounded-3xl p-5 xl:p-9 2xl:p-10">
         <p className="text-gray-100 text-3xl md:text-6xl lg:text-5xl xl:text-7xl 2xl:text-[80px] font-black">
-          Convert your design to code with the highest quality
+          Transform your creative vision into flawless, high-performance code
         </p>
         <div className="text-right mt-4">
           <Button colorScheme="violet" className="!rounded-full" h={"auto"}>
@@ -48,28 +48,28 @@ export const HeroSection: FC = () => {
         </div>
       </div>
       <div className="grid grid-cols-12 gap-3 xl:flex-auto">
-        <div className="col-span-12 md:col-span-4 lg:col-span-6 xl:col-span-4 h-32 md:h-40 lg:h-40 xl:h-full bg-teal-500 flex flex-col items-center justify-center rounded-2xl md:rounded-3xl ">
+        <div className="col-span-12 md:col-span-4 lg:col-span-6 xl:col-span-4 h-32 md:h-40 lg:h-40 xl:h-full bg-teal-500/70 flex flex-col items-center justify-center rounded-2xl md:rounded-3xl ">
           <div className="text-gray-100 text-5xl md:text-6xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-bold">
-            <span>2+</span>
+            <span>4+</span>
           </div>
           <div className="text-sm md:text-lg lg:text-base xl:text-lg xl:mt-2 2xl:text-lg text-gray-100">
             <span>Years Experience</span>
           </div>
         </div>
-        <div className="col-span-12 md:col-span-4 lg:col-span-6 xl:col-span-4 h-32 md:h-40 lg:h-40 xl:h-full bg-amber-400 flex flex-col items-center justify-center rounded-2xl md:rounded-3xl ">
-          <div className="text-gray-800 text-5xl md:text-6xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-bold">
-            <span>15+</span>
-          </div>
-          <div className="text-sm md:text-lg lg:text-base xl:text-lg xl:mt-2 2xl:text-lg text-gray-800">
-            <span>Completed Fully Project</span>
-          </div>
-        </div>
-        <div className="col-span-12 md:col-span-4 lg:col-span-12 xl:col-span-4 h-32 md:h-40 lg:h-40 xl:h-full bg-rose-400 flex flex-col items-center justify-center rounded-2xl md:rounded-3xl ">
+        <div className="col-span-12 md:col-span-4 lg:col-span-6 xl:col-span-4 h-32 md:h-40 lg:h-40 xl:h-full bg-amber-400/70 flex flex-col items-center justify-center rounded-2xl md:rounded-3xl ">
           <div className="text-gray-100 text-5xl md:text-6xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-bold">
-            <span>2K+</span>
+            <span>24+</span>
           </div>
           <div className="text-sm md:text-lg lg:text-base xl:text-lg xl:mt-2 2xl:text-lg text-gray-100">
-            <span>Social Media Followers</span>
+            <span>Completed Fully Projects</span>
+          </div>
+        </div>
+        <div className="col-span-12 md:col-span-4 lg:col-span-12 xl:col-span-4 h-32 md:h-40 lg:h-40 xl:h-full bg-rose-400/70 flex flex-col items-center justify-center rounded-2xl md:rounded-3xl ">
+          <div className="text-gray-100 text-5xl md:text-6xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-bold">
+            <span>80+</span>
+          </div>
+          <div className="text-sm md:text-lg lg:text-base xl:text-lg xl:mt-2 2xl:text-lg text-gray-100">
+            <span>GitHub Repositories</span>
           </div>
         </div>
       </div>

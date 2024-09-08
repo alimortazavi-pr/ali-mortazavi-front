@@ -34,7 +34,7 @@ export const ThePortfolios: FC<thePortfoliosProps> = ({
           >
             <Image
               alt=""
-              src={`https://pbudget.liara.run${portfolio.images[0]}`}
+              src={`https://alimor.liara.run${portfolio.images[0]}`}
               fill
               className="object-contain lg:object-cover object-center rounded-2xl"
             />

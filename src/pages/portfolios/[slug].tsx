@@ -36,7 +36,7 @@ const SinglePortfolio: FC<singlePortfolioProps> = ({ portfolio }) => {
             {portfolio.images?.map((img) => (
               <SwiperSlide key={img} className="rounded-xl relative">
                 <Image
-                  src={`https://pbudget.liara.run${img}`}
+                  src={`https://alimor.liara.run${img}`}
                   fill
                   alt=""
                   className="object-cover rounded-xl object-top"
@@ -59,7 +59,7 @@ const SinglePortfolio: FC<singlePortfolioProps> = ({ portfolio }) => {
             {portfolio.images?.map((img) => (
               <SwiperSlide key={img} className="rounded-xl relative">
                 <Image
-                  src={`https://pbudget.liara.run${img}`}
+                  src={`https://alimor.liara.run${img}`}
                   fill
                   alt=""
                   className="object-cover rounded-xl object-top"
@@ -72,8 +72,10 @@ const SinglePortfolio: FC<singlePortfolioProps> = ({ portfolio }) => {
           <div className="text-gray-100 text-2xl md:text-3xl xl:text-4xl font-bold mb-2">
             <span>{portfolio.title}</span>
           </div>
-          <div className="text-gray-300 text-base md:text-lg xl:text-xl mb-4">
-            <span>{portfolio.description}</span>
+          <div className="text-gray-300 text-base md:text-lg xl:text-xl mb-4 pre">
+            <span className="whitespace-break-spaces">
+              {portfolio.description}
+            </span>
           </div>
           <div className="mb-3 md:mb-5">
             <div className="text-gray-100 font-bold text-xl md:text-2xl xl:text-3xl mb-2 flex items-center gap-1">
@@ -82,7 +84,10 @@ const SinglePortfolio: FC<singlePortfolioProps> = ({ portfolio }) => {
             </div>
             <ul className="list-inside list-disc">
               {portfolio.features?.map((feature, i) => (
-                <li key={i} className="mb-2 text-gray-300 text-sm md:text-base xl:text-lg">
+                <li
+                  key={i}
+                  className="mb-2 text-gray-300 text-sm md:text-base xl:text-lg"
+                >
                   <span>{feature}</span>
                 </li>
               ))}
@@ -95,7 +100,10 @@ const SinglePortfolio: FC<singlePortfolioProps> = ({ portfolio }) => {
             </div>
             <ul className="list-inside list-disc flex flex-wrap gap-2">
               {portfolio.skills?.map((skill, i) => (
-                <li key={i} className="mb-2 text-gray-300 text-sm md:text-base xl:text-lg">
+                <li
+                  key={i}
+                  className="mb-2 text-gray-300 text-sm md:text-base xl:text-lg"
+                >
                   <span className="relative -left-[9px]">{skill}</span>
                 </li>
               ))}

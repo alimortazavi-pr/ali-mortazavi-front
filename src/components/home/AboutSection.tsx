@@ -2,19 +2,19 @@ import type { FC } from "react";
 
 //Tools
 import axios from "axios";
-import download from 'downloadjs'
+import download from "downloadjs";
 
 export const AboutSection: FC = () => {
   //Functions
   function downloadMyResume() {
     axios({
-      url: "https://pbudget.liara.run/my-resume/Ali-Mortazavi.pdf",
+      url: "https://alimor.liara.run/my-resume/Ali-Mortazavi.pdf",
       method: "GET",
       responseType: "blob",
     })
       .then((response) => {
-        const content = response.headers['content-type'];
-        download(response.data, 'Ali-Mortazavi', content)
+        const content = response.headers["content-type"];
+        download(response.data, "Ali-Mortazavi", content);
       })
       .catch((err) => {
         console.log(err);
@@ -33,15 +33,16 @@ export const AboutSection: FC = () => {
       </div>
       <div className="text-sm text-gray-400 md:text-base xl:text-lg 2xl:text-2xl">
         <p className="mb-2">
-          I am Ali Mortazavi. I am a front-end specialist and a MERN Stack
-          Developer. I started programming when I was 13 years old and I have
-          much experience I have finished many projects. I am very interested in
-          learning new technologies and I always like to keep myself updated I
-          try my best to do my projects in the best possible way.
+          My name is Ali Mortazavi, and I am a Front-End Specialist and MERN
+          Stack Developer. I began programming at the age of 13, and since then,
+          I have gained extensive experience, completing numerous projects
+          across different fields. I am passionate about learning new
+          technologies and continuously updating my skills. I always strive to
+          deliver the highest quality in every project I undertake.
         </p>
         <p>
           My Skills: Html/CSS, JavaScript, ReactJS, NextJS, Redux, TailWindCSS,
-          BootStrap, NodeJS, ExpressJS, NestJS, MongoDB, PostgreSQL and other UI
+          BootStrap, NodeJS, ExpressJS, NestJS, MongoDB, PostgreSQL, gRPC and other UI
           Components.
         </p>
       </div>
