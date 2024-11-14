@@ -36,7 +36,7 @@ const SinglePortfolio: FC<singlePortfolioProps> = ({ portfolio }) => {
             {portfolio.images?.map((img) => (
               <SwiperSlide key={img} className="rounded-xl relative">
                 <Image
-                  src={`https://alimor.liara.run${img}`}
+                  src={`https://api.alimor.ir${img}`}
                   fill
                   alt=""
                   className="object-cover rounded-xl object-top"
@@ -59,7 +59,7 @@ const SinglePortfolio: FC<singlePortfolioProps> = ({ portfolio }) => {
             {portfolio.images?.map((img) => (
               <SwiperSlide key={img} className="rounded-xl relative">
                 <Image
-                  src={`https://alimor.liara.run${img}`}
+                  src={`https://api.alimor.ir${img}`}
                   fill
                   alt=""
                   className="object-cover rounded-xl object-top"

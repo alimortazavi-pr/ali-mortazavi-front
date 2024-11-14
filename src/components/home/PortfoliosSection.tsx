@@ -25,7 +25,7 @@ export const PortfoliosSection: FC<portfoliosSectionProps> = ({
           >
             <Image
               alt=""
-              src={`https://alimor.liara.run${portfolio.images[0]}`}
+              src={`https://api.alimor.ir${portfolio.images[0]}`}
               fill
               className="object-contain object-center rounded-2xl"
             />

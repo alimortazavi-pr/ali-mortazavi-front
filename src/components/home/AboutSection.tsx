@@ -8,7 +8,7 @@ export const AboutSection: FC = () => {
   //Functions
   function downloadMyResume() {
     axios({
-      url: "https://alimor.liara.run/my-resume/Ali-Mortazavi.pdf",
+      url: "https://api.alimor.ir/my-resume/Ali-Mortazavi.pdf",
       method: "GET",
       responseType: "blob",
     })

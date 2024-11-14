@@ -12,7 +12,7 @@ module.exports = withPWA({
       "localhost",
       "api.alimortazavi.org",
       "ali-mortazavi.cyclic.app",
-      "alimor.liara.run",
+      "api.alimor.ir",
     ],
   },
 });
