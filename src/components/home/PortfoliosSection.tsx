@@ -7,7 +7,7 @@ export const PortfoliosSection: FC<portfoliosSectionProps> = ({
   portfolios,
 }) => {
   return (
-    <div className="bg-neutral-900 w-full p-5 md:p-6 rounded-3xl h-full">
+    <div className="bg-neutral-900 w-full p-5 md:p-6 rounded-3xl h-full flex flex-col">
       <div className="mb-3 xl:mb-4 2xl:mb-5 md:flex items-center justify-between">
         <div className="text-gray-100 text-2xl font-black text-left mb-2 md:mb-0 md:text-3xl 2xl:text-4xl">
           <span>Website Portfolios</span>
@@ -16,12 +16,12 @@ export const PortfoliosSection: FC<portfoliosSectionProps> = ({
           <Link href={"/portfolios"}>See All</Link>
         </div>
       </div>
-      <div className="flex items-center flex-nowrap gap-3 overflow-x-auto w-full">
+      <div className="flex items-center flex-nowrap gap-3 overflow-x-auto w-full flex-auto">
         {portfolios.map((portfolio) => (
           <Link
             href={`/portfolios/${portfolio.slug}`}
             key={portfolio._id}
-            className="min-w-[200px] md:min-w-max md:w-1/3 aspect-square relative rounded-2xl bg-neutral-900 border border-neutral-700"
+            className="min-w-[200px] md:min-w-max md:w-1/3 min-h-[250px] h-full relative rounded-2xl bg-neutral-900 border border-neutral-700"
           >
             <Image
               alt=""

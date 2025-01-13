@@ -8,11 +8,17 @@ const withPWA = require("next-pwa")({
 module.exports = withPWA({
   reactStrictMode: true,
   images: {
-    domains: [
-      "localhost",
-      "api.alimortazavi.org",
-      "ali-mortazavi.cyclic.app",
-      "api.alimor.ir",
+    remotePatterns: [
+      {
+        protocol: "http",
+        hostname: "localhost",
+        pathname: "**",
+      },
+      {
+        protocol: "https",
+        hostname: "api.alimor.ir",
+        pathname: "**",
+      },
     ],
   },
 });
