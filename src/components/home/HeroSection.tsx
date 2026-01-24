@@ -58,7 +58,7 @@ export const HeroSection: FC = () => {
         </div>
         <div className="col-span-12 md:col-span-4 lg:col-span-6 xl:col-span-4 h-32 md:h-40 lg:h-40 xl:h-full bg-amber-400/70 flex flex-col items-center justify-center rounded-2xl md:rounded-3xl ">
           <div className="text-gray-100 text-5xl md:text-6xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-bold">
-            <span>24+</span>
+            <span>27+</span>
           </div>
           <div className="text-sm md:text-lg lg:text-base xl:text-lg xl:mt-2 2xl:text-lg text-gray-100">
             <span>Completed Fully Projects</span>
@@ -66,7 +66,7 @@ export const HeroSection: FC = () => {
         </div>
         <div className="col-span-12 md:col-span-4 lg:col-span-12 xl:col-span-4 h-32 md:h-40 lg:h-40 xl:h-full bg-rose-400/70 flex flex-col items-center justify-center rounded-2xl md:rounded-3xl ">
           <div className="text-gray-100 text-5xl md:text-6xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-bold">
-            <span>80+</span>
+            <span>90+</span>
           </div>
           <div className="text-sm md:text-lg lg:text-base xl:text-lg xl:mt-2 2xl:text-lg text-gray-100">
             <span>GitHub Repositories</span>
