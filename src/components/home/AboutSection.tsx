@@ -33,17 +33,14 @@ export const AboutSection: FC = () => {
       </div>
       <div className="text-sm text-gray-400 md:text-base xl:text-lg 2xl:text-2xl">
         <p className="mb-2 text-justify">
-          My name is Ali Mortazavi, and I am a passionate Front-End Specialist
-          and MERN Stack Developer with a strong foundation in programming since
-          the age of 13. Over the years, I have successfully delivered numerous
-          projects across diverse domains, honing my skills and gaining
-          extensive expertise in web development. I am deeply committed to
-          staying updated with the latest technologies and continuously
-          improving my craft to deliver exceptional results in every project I
-          undertake.
+          I’m Ali Mortazavi, a Front-End Specialist and MERN Stack Developer who
+          enjoys turning complex problems into fast, scalable, and user-friendly
+          web applications. I’ve worked on data-heavy platforms, offline-first
+          systems, and performance-critical interfaces, always focusing on clean
+          architecture and real-world usability.
         </p>
         <p>
-          My Skills: Html/CSS, JavaScript, ReactJS, NextJS, Redux, TailWindCSS,
+          My Skills: Html/CSS, JavaScript, ReactJS, NextJS, ReactNative, Redux, TailWindCSS,
           BootStrap, NodeJS, ExpressJS, NestJS, MongoDB, PostgreSQL, gRPC and
           other UI Components.
         </p>
