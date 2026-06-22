@@ -1,49 +1,71 @@
 import type { FC } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { motion } from "framer-motion";
+import { ArrowRight2 } from "iconsax-react";
 import { portfoliosSectionProps } from "@/common/types/portfolios.type";
+import { assetUrl } from "@/common/utils/image";
 
-export const PortfoliosSection: FC<portfoliosSectionProps> = ({
-  portfolios,
-}) => {
-  return (
-    <div className="bg-neutral-900 w-full p-5 md:p-6 rounded-3xl h-full flex flex-col">
-      <div className="mb-3 xl:mb-4 2xl:mb-5 md:flex items-center justify-between">
-        <div className="text-gray-100 text-2xl font-black text-left mb-2 md:mb-0 md:text-3xl 2xl:text-4xl">
-          <span>Website Portfolios</span>
-        </div>
-        <div className="text-gray-400 text-lg text-right md:text-2xl 2xl:text-3xl">
-          <Link href={"/portfolios"}>See All</Link>
-        </div>
-      </div>
-      <div className="flex items-center flex-nowrap gap-3 overflow-x-auto w-full flex-auto">
-        {portfolios.map((portfolio) => (
+export const PortfoliosSection: FC<portfoliosSectionProps> = ({ portfolios }) => (
+  <div id="portfolios" className="glass rounded-3xl p-5 md:p-6 h-full flex flex-col">
+    <div className="flex items-center justify-between mb-5">
+      <h2 className="text-xl md:text-2xl font-bold text-white">
+        Featured <span className="text-gradient">Projects</span>
+      </h2>
+      <Link
+        href="/portfolios"
+        className="flex items-center gap-1 text-sm text-violet-400 hover:text-violet-300 transition-colors"
+      >
+        See all
+        <ArrowRight2 size={16} />
+      </Link>
+    </div>
+
+    <div className="flex items-stretch gap-4 overflow-x-auto pb-2 flex-1 snap-x snap-mandatory">
+      {portfolios.map((portfolio, i) => (
+        <motion.div
+          key={portfolio._id}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: i * 0.1 }}
+          className="snap-start"
+        >
           <Link
             href={`/portfolios/${portfolio.slug}`}
-            key={portfolio._id}
-            className="min-w-[200px] md:min-w-max md:w-1/3 min-h-[250px] h-full relative rounded-2xl bg-neutral-900 border border-neutral-700"
+            className="block min-w-[260px] md:min-w-[300px] h-[280px] relative rounded-2xl overflow-hidden group glass-hover"
           >
-            <Image
-              alt=""
-              src={`https://api.alimor.ir${portfolio.images[0]}`}
-              fill
-              className="object-contain object-center rounded-2xl"
-            />
-            <div className="z-10 duration-300 absolute rounded-2xl bg-neutral-900 bg-opacity-30 w-full h-full flex items-end justify-start p-4">
-              <div>
-                <div className="text-xl text-gray-100 font-bold">
-                  <span>{portfolio.title}</span>
-                </div>
-                <div className="text-sm text-gray-300">
-                  <span>{portfolio.description.slice(0, 40)}...</span>
-                </div>
+            {portfolio.images?.[0] && (
+              <Image
+                alt={portfolio.title}
+                src={assetUrl(portfolio.images[0])}
+                fill
+                className="object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+            )}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
+            <div className="absolute bottom-0 left-0 right-0 p-5">
+              <h3 className="text-lg font-bold text-white group-hover:text-violet-300 transition-colors">
+                {portfolio.title}
+              </h3>
+              <p className="text-sm text-gray-400 mt-1 line-clamp-2">
+                {portfolio.description}
+              </p>
+              <div className="flex flex-wrap gap-1.5 mt-3">
+                {portfolio.skills?.slice(0, 3).map((skill) => (
+                  <span
+                    key={skill}
+                    className="text-[10px] px-2 py-0.5 rounded-full bg-violet-500/20 text-violet-300 border border-violet-500/20"
+                  >
+                    {skill}
+                  </span>
+                ))}
               </div>
             </div>
           </Link>
-        ))}
-      </div>
+        </motion.div>
+      ))}
     </div>
-  );
-};
+  </div>
+);
 
 export default PortfoliosSection;

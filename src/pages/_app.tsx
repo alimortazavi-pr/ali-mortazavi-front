@@ -1,84 +1,75 @@
 import type { AppProps } from "next/app";
 import Script from "next/script";
-
-//Assets
-import "@/assets/styles/globals.css";
-//Swiper
-import "swiper/css";
-import "swiper/css/pagination";
-//Toastify
-import "react-toastify/dist/ReactToastify.css";
-//NGProgress
-import "@/assets/styles/nprogress.css";
-
-//Components
-import GlobalLayout from "@/components/GlobalLayout";
-
-//Redux
-import { Provider } from "react-redux";
-import store from "@/store";
-
-//ChakraUI
-import { ChakraProvider } from "@chakra-ui/react";
-import chakraDarkTheme from "@/common/styles/chakra-ui/chakraDarkTheme";
-
-//Transition
-import { motion } from "framer-motion";
-
-//Progress bar
-import NProgress from "nprogress";
 import { useEffect } from "react";
-import { Router } from "next/router";
-
-//Tools
+import { Router, useRouter } from "next/router";
+import { Provider } from "react-redux";
+import { ChakraProvider } from "@chakra-ui/react";
+import { motion, AnimatePresence } from "framer-motion";
+import NProgress from "nprogress";
 import { ToastContainer } from "react-toastify";
 
-export default function App({ Component, pageProps, router }: AppProps) {
+import "@/assets/styles/globals.css";
+import "swiper/css";
+import "swiper/css/pagination";
+import "react-toastify/dist/ReactToastify.css";
+import "@/assets/styles/nprogress.css";
+
+import GlobalLayout from "@/components/GlobalLayout";
+import store from "@/store";
+import chakraDarkTheme from "@/common/styles/chakra-ui/chakraDarkTheme";
+
+export default function App({ Component, pageProps }: AppProps) {
+  const router = useRouter();
+  const isAdminRoute = router.pathname.startsWith("/admin");
+
   useEffect(() => {
     Router.events.on("routeChangeStart", () => NProgress.start());
     Router.events.on("routeChangeComplete", () => NProgress.done());
     Router.events.on("routeChangeError", () => NProgress.done());
   }, []);
+
+  const content = (
+    <AnimatePresence mode="wait">
+      <motion.div
+        key={router.route}
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.3, ease: "easeOut" }}
+      >
+        <Component {...pageProps} />
+      </motion.div>
+    </AnimatePresence>
+  );
+
   return (
     <>
       <Script
-        id=""
         strategy="lazyOnload"
-        src={`https://www.googletagmanager.com/gtag/js?id=G-ZXQ21YV6HD`}
+        src="https://www.googletagmanager.com/gtag/js?id=G-ZXQ21YV6HD"
       />
-
-      <Script id="" strategy="lazyOnload">
+      <Script id="gtag-init" strategy="lazyOnload">
         {`
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-ZXQ21YV6HD', {
-        page_path: window.location.pathname,
-        });
-    `}
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-ZXQ21YV6HD', { page_path: window.location.pathname });
+        `}
       </Script>
 
       <Provider store={store}>
         <ChakraProvider theme={chakraDarkTheme}>
-          <GlobalLayout>
-            <motion.div
-              key={router.route}
-              initial="initial"
-              animate="animate"
-              variants={{
-                initial: {
-                  opacity: 0.5,
-                },
-                animate: {
-                  opacity: 1,
-                },
-              }}
-            >
-              <Component {...pageProps} />
-            </motion.div>
-          </GlobalLayout>
+          {isAdminRoute ? (
+            content
+          ) : (
+            <GlobalLayout>{content}</GlobalLayout>
+          )}
         </ChakraProvider>
-        <ToastContainer theme="light" />
+        <ToastContainer
+          theme="dark"
+          position="top-center"
+          toastClassName="!bg-[#1a1a24] !text-white !border !border-white/10 !rounded-xl"
+        />
       </Provider>
     </>
   );

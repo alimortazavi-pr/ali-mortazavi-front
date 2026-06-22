@@ -1,50 +1,44 @@
 import Head from "next/head";
 import type { FC } from "react";
 
-//Types
 import { IPortfolio } from "@/common/interfaces/portfolios.interface";
-
-//Components
 import InfoSection from "@/components/home/InfoSection";
 import NavBar from "@/components/layouts/NavBar";
 import HeroSection from "@/components/home/HeroSection";
 import PortfoliosSection from "@/components/home/PortfoliosSection";
 import AboutSection from "@/components/home/AboutSection";
-
-//Tools
 import api from "@/common/api";
 import { theHomeProps } from "@/common/types/layouts.type";
+import { SITE } from "@/common/constants";
 
-export const TheHome: FC<theHomeProps> = ({ portfolios }) => {
-  return (
-    <div className="w-full">
-      <Head>
-        <title>Ali Mortazavi | Home</title>
-      </Head>
-      <div className="flex flex-col-reverse lg:flex-row lg:items-stretch gap-4">
-        <div className="w-full lg:w-6/12 xl:w-6/12">
-          <HeroSection />
-        </div>
-        <div className="w-full lg:w-6/12 xl:w-6/12 flex flex-col">
-          <div>
-            <NavBar />
-          </div>
-          <div className="mt-4 flex-auto">
-            <InfoSection />
-          </div>
-        </div>
+export const TheHome: FC<theHomeProps> = ({ portfolios }) => (
+  <div className="w-full space-y-4">
+    <Head>
+      <title>{SITE.name} | {SITE.title}</title>
+      <meta name="description" content="Senior Front-End Developer specializing in React, Next.js, and TypeScript. Building high-performance web applications." />
+    </Head>
+
+    <NavBar />
+
+    <div className="flex flex-col lg:flex-row gap-4">
+      <div className="w-full lg:w-1/2">
+        <HeroSection />
       </div>
-      <div className="flex flex-col xl:flex-row xl:items-stretch gap-4 mt-4">
-        <div className="w-full xl:w-7/12">
-          <PortfoliosSection portfolios={portfolios} />
-        </div>
-        <div className="w-full xl:w-5/12">
-          <AboutSection />
-        </div>
+      <div className="w-full lg:w-1/2">
+        <InfoSection />
       </div>
     </div>
-  );
-};
+
+    <div className="flex flex-col xl:flex-row gap-4">
+      <div className="w-full xl:w-7/12">
+        <PortfoliosSection portfolios={portfolios} />
+      </div>
+      <div className="w-full xl:w-5/12">
+        <AboutSection />
+      </div>
+    </div>
+  </div>
+);
 
 export async function getStaticProps() {
   let portfolios: IPortfolio[] = [];
@@ -52,14 +46,12 @@ export async function getStaticProps() {
   try {
     const response = await api.get(`/portfolios?limit=3`);
     portfolios = response.data.portfolios;
-  } catch (error: any) {
-    console.log(error.response?.data);
+  } catch (error: unknown) {
+    console.error("Failed to fetch portfolios:", error);
   }
 
   return {
-    props: {
-      portfolios,
-    },
+    props: { portfolios },
     revalidate: 10,
   };
 }

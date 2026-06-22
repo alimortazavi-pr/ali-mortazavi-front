@@ -1,163 +1,131 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { GetStaticProps } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
-
-//Types
-import { IPortfolio } from "@/common/interfaces/portfolios.interface";
-import { singlePortfolioProps } from "@/common/types/portfolios.type";
-
-//Tools
-import api from "@/common/api";
-import NavBar from "@/components/layouts/NavBar";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { FreeMode, Pagination } from "swiper";
-import { ArrowRight, BackwardItem, JavaScript } from "iconsax-react";
+import { ArrowRight, BackwardItem, ExportSquare, JavaScript } from "iconsax-react";
+import { IPortfolio } from "@/common/interfaces/portfolios.interface";
+import { singlePortfolioProps } from "@/common/types/portfolios.type";
+import api from "@/common/api";
+import NavBar from "@/components/layouts/NavBar";
+import { assetUrl } from "@/common/utils/image";
+import { SITE } from "@/common/constants";
 
-const SinglePortfolio: FC<singlePortfolioProps> = ({ portfolio }) => {
-  return (
-    <div>
-      <Head>
-        <title>Ali Mortazavi | {portfolio.title}</title>
-      </Head>
-      <div className="mb-4">
-        <NavBar />
-      </div>
-      <div className="flex flex-col gap-4">
-        <div className="lg:hidden">
-          <Swiper
-            pagination={true}
-            spaceBetween={10}
-            direction={"vertical"}
-            modules={[Pagination]}
-            className="w-full h-[250px] md:h-[400px]"
-          >
-            {portfolio.images?.map((img) => (
-              <SwiperSlide key={img} className="rounded-xl relative">
-                <Image
-                  src={`https://api.alimor.ir${img}`}
-                  fill
-                  alt=""
-                  className="object-cover rounded-xl object-top"
-                />
-              </SwiperSlide>
+const SinglePortfolio: FC<singlePortfolioProps> = ({ portfolio }) => (
+  <div>
+    <Head>
+      <title>{SITE.name} | {portfolio.title}</title>
+    </Head>
+    <NavBar />
+
+    <div className="mt-6 flex flex-col gap-5">
+      <Swiper
+        slidesPerView={1}
+        spaceBetween={16}
+        breakpoints={{
+          768: { slidesPerView: 2 },
+          1024: { slidesPerView: 3 },
+        }}
+        freeMode
+        pagination={{ clickable: true }}
+        modules={[FreeMode, Pagination]}
+        className="w-full h-[250px] md:h-[350px] portfolio-swiper"
+      >
+        {portfolio.images?.map((img) => (
+          <SwiperSlide key={img} className="rounded-2xl overflow-hidden relative">
+            <Image
+              src={assetUrl(img)}
+              fill
+              alt={portfolio.title}
+              className="object-cover object-top"
+            />
+          </SwiperSlide>
+        ))}
+      </Swiper>
+
+      <div className="glass rounded-2xl p-6 md:p-8">
+        <h1 className="text-2xl md:text-4xl font-bold text-white mb-3">
+          {portfolio.title}
+        </h1>
+        <p className="text-gray-400 text-base md:text-lg leading-relaxed whitespace-pre-wrap mb-6">
+          {portfolio.description}
+        </p>
+
+        <div className="mb-6">
+          <h2 className="text-lg font-bold text-white mb-3 flex items-center gap-2">
+            <BackwardItem size={20} className="text-violet-400" />
+            Features
+          </h2>
+          <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
+            {portfolio.features?.map((feature, i) => (
+              <li key={i} className="flex items-start gap-2 text-gray-400 text-sm md:text-base">
+                <span className="text-violet-400 mt-1.5">▸</span>
+                {feature}
+              </li>
             ))}
-          </Swiper>
+          </ul>
         </div>
-        <div className="hidden lg:block">
-          <Swiper
-            slidesPerView={3}
-            spaceBetween={30}
-            freeMode={true}
-            pagination={{
-              clickable: true,
-            }}
-            modules={[FreeMode, Pagination]}
-            className="w-full h-[300px] 2xl:h-[400px]"
-          >
-            {portfolio.images?.map((img) => (
-              <SwiperSlide key={img} className="rounded-xl relative">
-                <Image
-                  src={`https://api.alimor.ir${img}`}
-                  fill
-                  alt=""
-                  className="object-cover rounded-xl object-top"
-                />
-              </SwiperSlide>
+
+        <div className="mb-6">
+          <h2 className="text-lg font-bold text-white mb-3 flex items-center gap-2">
+            <JavaScript size={20} className="text-violet-400" />
+            Tech Stack
+          </h2>
+          <div className="flex flex-wrap gap-2">
+            {portfolio.skills?.map((skill, i) => (
+              <span
+                key={i}
+                className="text-sm px-3 py-1.5 rounded-full bg-violet-500/10 text-violet-300 border border-violet-500/20"
+              >
+                {skill}
+              </span>
             ))}
-          </Swiper>
+          </div>
         </div>
-        <div className="w-full p-5 bg-neutral-900 rounded-xl">
-          <div className="text-gray-100 text-2xl md:text-3xl xl:text-4xl font-bold mb-2">
-            <span>{portfolio.title}</span>
-          </div>
-          <div className="text-gray-300 text-base md:text-lg xl:text-xl mb-4 pre">
-            <span className="whitespace-break-spaces">
-              {portfolio.description}
-            </span>
-          </div>
-          <div className="mb-3 md:mb-5">
-            <div className="text-gray-100 font-bold text-xl md:text-2xl xl:text-3xl mb-2 flex items-center gap-1">
-              <BackwardItem className="w-5 h-5 md:w-6 md:h-6" />
-              <span>Features:</span>
-            </div>
-            <ul className="list-inside list-disc">
-              {portfolio.features?.map((feature, i) => (
-                <li
-                  key={i}
-                  className="mb-2 text-gray-300 text-sm md:text-base xl:text-lg"
-                >
-                  <span>{feature}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div className="">
-            <div className="text-gray-100 font-bold text-xl md:text-2xl xl:text-3xl mb-2 flex items-center gap-1">
-              <JavaScript className="w-5 h-5 md:w-6 md:h-6" />
-              <span>Skills:</span>
-            </div>
-            <ul className="list-inside list-disc flex flex-wrap gap-2">
-              {portfolio.skills?.map((skill, i) => (
-                <li
-                  key={i}
-                  className="mb-2 text-gray-300 text-sm md:text-base xl:text-lg"
-                >
-                  <span className="relative -left-[9px]">{skill}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <hr className="my-3 md:my-5" />
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between">
-            <div className="text-gray-200 font-semibold mb-2 text-lg md:text-xl xl:text-2xl">
-              <span>{portfolio.link}</span>
-            </div>
-            <div className="text-lg md:text-xl xl:text-2xl flex items-center gap-1 text-blue-400 place-self-end md:place-self-auto">
-              <Link href={portfolio.link}>View Website</Link>
-              <ArrowRight className="w-5 h-5" />
-            </div>
-          </div>
+
+        <div className="pt-5 border-t border-white/[0.06] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          <span className="text-gray-500 text-sm truncate">{portfolio.link}</span>
+          <Link
+            href={portfolio.link}
+            target="_blank"
+            className="inline-flex items-center gap-2 text-violet-400 hover:text-violet-300 transition-colors font-medium"
+          >
+            <ExportSquare size={18} />
+            View Live Project
+            <ArrowRight size={16} />
+          </Link>
         </div>
       </div>
     </div>
-  );
-};
+  </div>
+);
 
 export async function getStaticPaths() {
   let portfolios: IPortfolio[] = [];
-
   try {
     const response = await api.get(`/portfolios`);
     portfolios = response.data.portfolios;
-  } catch (error: any) {
-    console.log(error.response?.data);
+  } catch (error: unknown) {
+    console.error("Failed to fetch portfolios:", error);
   }
-
-  const paths = portfolios.map((portfolio) => ({
-    params: { slug: portfolio.slug },
-  }));
-
-  return { paths, fallback: false };
+  return {
+    paths: portfolios.map((p) => ({ params: { slug: p.slug } })),
+    fallback: "blocking",
+  };
 }
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  let portfolio: IPortfolio | object = {};
-
+  let portfolio: IPortfolio | null = null;
   try {
     const response = await api.get(`/portfolios/${params?.slug}`);
     portfolio = response.data.portfolio;
-  } catch (error: any) {
-    console.log(error.response?.data);
+  } catch (error: unknown) {
+    console.error("Failed to fetch portfolio:", error);
   }
-
-  return {
-    props: {
-      portfolio,
-    },
-    revalidate: 10,
-  };
+  if (!portfolio) return { notFound: true };
+  return { props: { portfolio }, revalidate: 10 };
 };
 
 export default SinglePortfolio;

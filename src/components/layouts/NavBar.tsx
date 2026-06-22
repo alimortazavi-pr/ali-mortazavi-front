@@ -1,13 +1,8 @@
-import { FC, MouseEvent, useEffect } from "react";
+import type { FC } from "react";
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useDisclosure } from "@chakra-ui/react";
-
-//Components
-import AboutMeModal from "./AboutMeModal";
-import ContactMeModal from "./ContactMeModal";
-
-//Tools
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Call,
   DocumentText,
@@ -15,187 +10,136 @@ import {
   HambergerMenu,
   Home,
   InfoCircle,
+  CloseCircle,
 } from "iconsax-react";
-import axios from "axios";
-import download from "downloadjs";
+import AboutMeModal from "./AboutMeModal";
+import ContactMeModal from "./ContactMeModal";
+import { downloadResume } from "@/common/utils/resume";
+
+const navLinks = [
+  { href: "/", label: "Home", icon: Home },
+  { href: "/portfolios", label: "Portfolios", icon: ForwardItem },
+  { label: "Resume", icon: DocumentText, action: "resume" as const },
+  { label: "Contact", icon: Call, action: "contact" as const },
+  { label: "About", icon: InfoCircle, action: "about" as const },
+];
 
 export const NavBar: FC = () => {
-  //ChakraUI
-  const {
-    isOpen: isOpenAboutMe,
-    onOpen: onOpenAboutMe,
-    onClose: onCloseAboutMe,
-  } = useDisclosure();
-  const {
-    isOpen: isOpenContactMe,
-    onOpen: onOpenContactMe,
-    onClose: onCloseContactMe,
-  } = useDisclosure();
+  const aboutDisclosure = useDisclosure();
+  const contactDisclosure = useDisclosure();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
 
-  //States
-  const [menuHeight, setMenuHeight] = useState<number>(0);
-  const [menuIsOpening, setMenuIsOpening] = useState<boolean>(true);
-
-  //Refs
-  const menuRef = useRef<HTMLUListElement>(null);
-  const hambegerMenuRef = useRef<HTMLDivElement>(null);
-
-  //Hooks
   useEffect(() => {
-    function handleClickOutside(event: any) {
-      if (
-        menuRef.current &&
-        !menuRef.current.contains(event.target) &&
-        hambegerMenuRef.current &&
-        !hambegerMenuRef.current.contains(event.target)
-      ) {
-        toggleMenu();
+    function handleClickOutside(e: MouseEvent) {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setMenuOpen(false);
       }
     }
-    if (!menuIsOpening) {
-      document.addEventListener("mousedown", handleClickOutside);
-      return () => {
-        document.removeEventListener("mousedown", handleClickOutside);
-      };
-    }
-  }, [menuRef, menuIsOpening]);
+    if (menuOpen) document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [menuOpen]);
 
-  //Functions
-  function downloadMyResume() {
-    axios({
-      url: "https://api.alimor.ir/my-resume/Ali-Mortazavi.pdf",
-      method: "GET",
-      responseType: "blob",
-    })
-      .then((response) => {
-        const content = response.headers["content-type"];
-        download(response.data, "Ali-Mortazavi", content);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-
-  function toggleMenu() {
-    let currentHeight = menuRef.current?.clientHeight as number;
-    setMenuIsOpening(!menuIsOpening);
-    window.clearInterval((window as any).setHeightInterval);
-    (window as any).setHeightInterval = setInterval(() => {
-      if (menuIsOpening) {
-        setMenuHeight(currentHeight + 2);
-        currentHeight += 2;
-      } else {
-        setMenuHeight(currentHeight - 2);
-        currentHeight -= 2;
-      }
-      if (
-        (currentHeight >= 270 && menuIsOpening) ||
-        (currentHeight <= 0 && !menuIsOpening)
-      ) {
-        window.clearInterval((window as any).setHeightInterval);
-      }
-    }, 1);
+  function handleNavAction(action: string) {
+    setMenuOpen(false);
+    if (action === "resume") downloadResume();
+    if (action === "contact") contactDisclosure.onOpen();
+    if (action === "about") aboutDisclosure.onOpen();
   }
 
   return (
-    <nav className="w-full bg-neutral-900 rounded-2xl lg:rounded-[1.8rem] relative">
-      <div className="flex items-center justify-between p-4 lg:p-6 pr-[13px] lg:pr-[13px]">
-        <Link href={"/"} className="font-bold text-lg lg:text-xl xl:text-2xl">
-          <span className="text-gray-400">Ali</span>
-          <span className="text-gray-100">Mortazavi</span>
-        </Link>
-        <div
-          className="text-gray-200 hover:bg-gray-600 hover:bg-opacity-30 flex items-center justify-center w-10 h-10 rounded-xl cursor-pointer duration-300"
-          onClick={toggleMenu}
-          ref={hambegerMenuRef}
-        >
-          <HambergerMenu size="24" />
+    <>
+      <nav className="glass rounded-2xl sticky top-3 z-50">
+        <div className="flex items-center justify-between px-5 py-3.5">
+          <Link href="/" className="group">
+            <span className="text-lg font-bold tracking-tight">
+              <span className="text-gray-500 group-hover:text-violet-400 transition-colors">Ali</span>
+              <span className="text-white"> Mortazavi</span>
+            </span>
+          </Link>
+
+          <div className="hidden md:flex items-center gap-1">
+            {navLinks.map((item) => {
+              const Icon = item.icon;
+              if (item.href) {
+                return (
+                  <Link
+                    key={item.label}
+                    href={item.href}
+                    className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm text-gray-400 hover:text-white hover:bg-white/5 transition-all"
+                  >
+                    <Icon size={16} />
+                    {item.label}
+                  </Link>
+                );
+              }
+              return (
+                <button
+                  key={item.label}
+                  onClick={() => handleNavAction(item.action!)}
+                  className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm text-gray-400 hover:text-white hover:bg-white/5 transition-all"
+                >
+                  <Icon size={16} />
+                  {item.label}
+                </button>
+              );
+            })}
+          </div>
+
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="md:hidden flex items-center justify-center w-10 h-10 rounded-xl text-gray-300 hover:bg-white/5 transition-colors"
+          >
+            {menuOpen ? <CloseCircle size={22} /> : <HambergerMenu size={22} />}
+          </button>
         </div>
-      </div>
-      <ul
-        ref={menuRef}
-        style={{ maxHeight: `${menuHeight}px` }}
-        className={`z-20 w-full lg:w-7/12 xl:w-4/12 lg:absolute border-t py-1 lg:py-3 px-2 lg:px-3 border-gray-700 lg:bg-neutral-900 lg:border lg:border-gray-600 lg:rounded-3xl lg:mt-0 right-7 top-14 overflow-y-hidden ${
-          menuHeight <= 0 ? "hidden" : "block"
-        }`}
-      >
-        <li className="w-full">
-          <Link
-            href={"/"}
-            className="flex items-center justify-between my-1 duration-300 py-3 px-2 lg:px-3 hover:bg-gray-600 hover:bg-opacity-30 rounded-xl"
-          >
-            <div className="text-gray-200 text-sm">
-              <span>Home</span>
-            </div>
-            <div className="text-gray-200">
-              <Home size={"18"} />
-            </div>
-          </Link>
-        </li>
-        <li className="w-full">
-          <Link
-            href={"/portfolios"}
-            className="flex items-center justify-between my-1 duration-300 py-3 px-2 lg:px-3 hover:bg-gray-600 hover:bg-opacity-30 rounded-xl"
-          >
-            <div className="text-gray-200 text-sm">
-              <span>Portfolios</span>
-            </div>
-            <div className="text-gray-200">
-              <ForwardItem size={"18"} />
-            </div>
-          </Link>
-        </li>
-        <li className="w-full">
-          <span
-            className="cursor-pointer flex items-center justify-between my-1 duration-300 py-3 px-2 lg:px-3 hover:bg-gray-600 hover:bg-opacity-30 rounded-xl"
-            onClick={downloadMyResume}
-          >
-            <div className="text-gray-200 text-sm">
-              <span>My Resume</span>
-            </div>
-            <div className="text-gray-200">
-              <DocumentText size={"18"} />
-            </div>
-          </span>
-        </li>
-        <li className="w-full">
-          <span
-            className="cursor-pointer flex items-center justify-between my-1 duration-300 py-3 px-2 lg:px-3 hover:bg-gray-600 hover:bg-opacity-30 rounded-xl"
-            onClick={onOpenContactMe}
-          >
-            <div className="text-gray-200 text-sm">
-              <span>Contact Me</span>
-            </div>
-            <div className="text-gray-200">
-              <Call size={"18"} />
-            </div>
-          </span>
-        </li>
-        <li className="w-full">
-          <span
-            className="cursor-pointer flex items-center justify-between my-1 duration-300 py-3 px-2 lg:px-3 hover:bg-gray-600 hover:bg-opacity-30 rounded-xl"
-            onClick={onOpenAboutMe}
-          >
-            <div className="text-gray-200 text-sm">
-              <span>About Me</span>
-            </div>
-            <div className="text-gray-200">
-              <InfoCircle size={"18"} />
-            </div>
-          </span>
-        </li>
-      </ul>
-      <AboutMeModal
-        isOpen={isOpenAboutMe}
-        onClose={onCloseAboutMe}
-        onOpen={onOpenAboutMe}
-      />
-      <ContactMeModal
-        isOpen={isOpenContactMe}
-        onClose={onCloseContactMe}
-        onOpen={onOpenContactMe}
-      />
-    </nav>
+
+        <AnimatePresence>
+          {menuOpen && (
+            <motion.div
+              ref={menuRef}
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="md:hidden overflow-hidden border-t border-white/[0.06]"
+            >
+              <div className="p-2 space-y-1">
+                {navLinks.map((item) => {
+                  const Icon = item.icon;
+                  if (item.href) {
+                    return (
+                      <Link
+                        key={item.label}
+                        href={item.href}
+                        onClick={() => setMenuOpen(false)}
+                        className="flex items-center justify-between px-4 py-3 rounded-xl text-gray-300 hover:bg-white/5 transition-colors"
+                      >
+                        <span className="text-sm">{item.label}</span>
+                        <Icon size={18} />
+                      </Link>
+                    );
+                  }
+                  return (
+                    <button
+                      key={item.label}
+                      onClick={() => handleNavAction(item.action!)}
+                      className="flex items-center justify-between w-full px-4 py-3 rounded-xl text-gray-300 hover:bg-white/5 transition-colors"
+                    >
+                      <span className="text-sm">{item.label}</span>
+                      <Icon size={18} />
+                    </button>
+                  );
+                })}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </nav>
+
+      <AboutMeModal {...aboutDisclosure} />
+      <ContactMeModal {...contactDisclosure} />
+    </>
   );
 };
 

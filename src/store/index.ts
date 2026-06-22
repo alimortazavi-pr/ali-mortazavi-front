@@ -2,11 +2,13 @@ import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 
 //Reducers
 import layoutsReducer from "./layouts";
+import authReducer from "./auth";
 
 export function makeStore() {
   return configureStore({
     reducer: {
       layouts: layoutsReducer,
+      auth: authReducer,
     },
   });
 }

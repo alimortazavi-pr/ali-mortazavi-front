@@ -1,7 +1,8 @@
 import axios from "axios";
+import { API_BASE_URL } from "@/common/constants";
 
 const api = axios.create({
-  baseURL: "https://api.alimor.ir/v1",
+  baseURL: API_BASE_URL,
 });
 
 export default api;

@@ -1,76 +1,78 @@
 import Head from "next/head";
 import type { FC } from "react";
-
-//Types
-import { IPortfolio } from "@/common/interfaces/portfolios.interface";
-import { thePortfoliosProps } from "@/common/types/portfolios.type";
-
-//Components
-import NavBar from "@/components/layouts/NavBar";
-
-//Tools
-import api from "@/common/api";
 import Link from "next/link";
 import Image from "next/image";
+import { motion } from "framer-motion";
 
-export const ThePortfolios: FC<thePortfoliosProps> = ({
-  portfolios,
-  totalPages,
-}) => {
-  return (
-    <div>
-      <Head>
-        <title>Ali Mortazavi | Portfolios</title>
-      </Head>
-      <div className="mb-4">
-        <NavBar />
-      </div>
-      <div className="grid grid-cols-12 gap-4">
-        {portfolios.map((portfolio) => (
+import { IPortfolio } from "@/common/interfaces/portfolios.interface";
+import { thePortfoliosProps } from "@/common/types/portfolios.type";
+import NavBar from "@/components/layouts/NavBar";
+import api from "@/common/api";
+import { assetUrl } from "@/common/utils/image";
+import { SITE } from "@/common/constants";
+
+export const ThePortfolios: FC<thePortfoliosProps> = ({ portfolios }) => (
+  <div>
+    <Head>
+      <title>{SITE.name} | Portfolios</title>
+    </Head>
+    <NavBar />
+
+    <div className="mt-6 mb-8">
+      <h1 className="text-3xl md:text-4xl font-bold text-white">
+        My <span className="text-gradient">Projects</span>
+      </h1>
+      <p className="text-gray-500 mt-2">A collection of web applications I&apos;ve built</p>
+    </div>
+
+    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+      {portfolios.map((portfolio, i) => (
+        <motion.div
+          key={portfolio._id}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: i * 0.05 }}
+        >
           <Link
             href={`/portfolios/${portfolio.slug}`}
-            key={portfolio._id}
-            className="col-span-12 md:col-span-6 xl:col-span-4 h-[300px] relative rounded-2xl bg-neutral-900"
+            className="block h-[320px] relative rounded-2xl overflow-hidden group glass glass-hover"
           >
-            <Image
-              alt=""
-              src={`https://api.alimor.ir${portfolio.images[0]}`}
-              fill
-              className="object-contain lg:object-cover object-center rounded-2xl"
-            />
-            <div className="z-10 duration-300 absolute rounded-2xl bg-neutral-900 bg-opacity-30 w-full h-full flex items-end justify-start p-4">
-              <div>
-                <div className="text-xl md:text-2xl text-gray-100 font-bold">
-                  <span>{portfolio.title}</span>
-                </div>
-                <div className="text-sm md:text-base text-gray-300">
-                  <span>{portfolio.description.slice(0, 200)}</span>
-                </div>
-              </div>
+            {portfolio.images?.[0] && (
+              <Image
+                alt={portfolio.title}
+                src={assetUrl(portfolio.images[0])}
+                fill
+                className="object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+            )}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
+            <div className="absolute bottom-0 left-0 right-0 p-5">
+              <h2 className="text-xl font-bold text-white group-hover:text-violet-300 transition-colors">
+                {portfolio.title}
+              </h2>
+              <p className="text-sm text-gray-400 mt-1 line-clamp-2">
+                {portfolio.description}
+              </p>
             </div>
           </Link>
-        ))}
-      </div>
+        </motion.div>
+      ))}
     </div>
-  );
-};
+  </div>
+);
 
 export async function getStaticProps() {
   let portfolios: IPortfolio[] = [];
-  let totalPages: number = 0;
 
   try {
     const response = await api.get(`/portfolios`);
     portfolios = response.data.portfolios;
-  } catch (error: any) {
-    console.log(error.response?.data);
+  } catch (error: unknown) {
+    console.error("Failed to fetch portfolios:", error);
   }
 
   return {
-    props: {
-      portfolios,
-      totalPages,
-    },
+    props: { portfolios, totalPages: 0 },
     revalidate: 10,
   };
 }
