@@ -1,171 +1,110 @@
 import {
-  Button,
-  FormControl,
-  FormLabel,
   Modal,
   ModalBody,
   ModalCloseButton,
   ModalContent,
-  ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Textarea,
 } from "@chakra-ui/react";
 import { ChangeEvent, FC, useState } from "react";
-
-//Types
-import { contactMeModalProps } from "@/common/types/layouts.type";
-import { IContactMeForm } from "@/common/interfaces/layouts.interface";
-
-//Redux
-import { useAppDispatch } from "@/store/hooks";
-
-//Tools
-import { Call, DirectNormal, Instagram } from "iconsax-react";
+import { Call, DirectNormal, Instagram, Send2 } from "iconsax-react";
 import { GitHubSvg, LinkedinSvg, TelegramSvg } from "./TheSvgs";
 import { toast } from "react-toastify";
+import { useAppDispatch } from "@/store/hooks";
 import { sendContactMeMessage } from "@/store/layouts/actions";
+import { contactMeModalProps } from "@/common/types/layouts.type";
+import { IContactMeForm } from "@/common/interfaces/layouts.interface";
+import { useSite } from "@/context/SiteContext";
+import { Button } from "@/components/ui/Button";
+import { Textarea } from "@/components/ui/Textarea";
 
-const ContactMeModal: FC<contactMeModalProps> = ({
-  isOpen,
-  onOpen,
-  onClose,
-}) => {
-  //Redux
+const ContactMeModal: FC<contactMeModalProps> = ({ isOpen, onClose }) => {
   const dispatch = useAppDispatch();
-
-  //States
+  const { profile, social, contactModal } = useSite();
   const [form, setForm] = useState<IContactMeForm>({ message: "" });
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-
-  //Functions
-  function inputHandler(e: ChangeEvent<HTMLTextAreaElement>) {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value,
-    });
-  }
+  const [isLoading, setIsLoading] = useState(false);
 
   async function sendMessage() {
-    if (!form.message) {
-      toast.error("Please fill the message field", {
-        position: toast.POSITION.TOP_CENTER,
-      });
+    if (!form.message.trim()) {
+      toast.error("Please write a message");
       return;
     }
     setIsLoading(true);
     try {
       await dispatch(sendContactMeMessage(form));
-      toast.success("Thank you :) your message has been sent.", {
-        position: toast.POSITION.TOP_CENTER,
-      });
-      setIsLoading(false);
-      setForm({
-        message: "",
-      });
+      toast.success("Message sent! I'll get back to you soon.");
+      setForm({ message: "" });
       onClose();
-    } catch (err: any) {
-      toast.error(err.message, {
-        position: toast.POSITION.TOP_CENTER,
-      });
+    } catch (err: unknown) {
+      toast.error(err instanceof Error ? err.message : "Failed to send");
+    } finally {
       setIsLoading(false);
     }
   }
 
+  const linkClass =
+    "flex items-center gap-3 p-3 rounded-xl glass glass-hover text-sm text-gray-300 hover:text-white transition-colors";
+
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
-      <ModalOverlay />
-      <ModalContent w={"100%"} maxWidth={"650px"} rounded={"2xl"}>
-        <ModalCloseButton />
+    <Modal isOpen={isOpen} onClose={onClose} size="lg">
+      <ModalOverlay backdropFilter="blur(8px)" bg="blackAlpha.700" />
+      <ModalContent bg="#111118" border="1px solid rgba(255,255,255,0.08)" rounded="2xl" mx={4}>
+        <ModalCloseButton color="gray.400" />
         <ModalHeader>
-          <span className="text-gray-100 xl:text-2xl">Contact Me</span>
+          <span className="text-white text-xl font-display font-bold">{contactModal.title}</span>
+          <p className="text-sm text-gray-500 font-normal mt-1">{contactModal.subtitle}</p>
         </ModalHeader>
-        <ModalBody>
-          <div className="grid grid-cols-12 gap-3">
-            <div className="col-span-12 md:col-span-6 bg-neutral-800 text-gray-100 rounded-xl">
-              <a
-                href="tel:+989127461218"
-                className="flex items-center justify-between p-3"
-              >
-                <Call className="w-5 h-5" variant="Bold" />
-                <span>+989127461218</span>
+        <ModalBody pb={6}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-5">
+            {profile.phone && (
+              <a href={`tel:${profile.phone}`} className={linkClass}>
+                <Call className="w-4 h-4 shrink-0" variant="Bold" />
+                <span className="truncate">{profile.phone}</span>
               </a>
-            </div>
-            <div className="col-span-12 md:col-span-6 bg-neutral-800 text-gray-100 rounded-xl">
-              <a
-                href="mailto:alimortazavi.pr@gmail.com"
-                className="flex items-center justify-between p-3"
-              >
-                <DirectNormal className="w-5 h-5" variant="Bold" />
-                <span>alimortazavi.pr@gmail.com</span>
+            )}
+            {profile.email && (
+              <a href={`mailto:${profile.email}`} className={linkClass}>
+                <DirectNormal className="w-4 h-4 shrink-0" variant="Bold" />
+                <span className="truncate">{profile.email}</span>
               </a>
-            </div>
-            <div className="col-span-12 md:col-span-6 bg-neutral-800 text-gray-100 rounded-xl">
-              <a
-                href="https://www.linkedin.com/in/ali-mortazavi"
-                target="_blank"
-                className="flex items-center justify-between p-3"
-              >
-                <LinkedinSvg className="w-5 h-5" filled />
-                <span>linkedin.com/in/ali-mortazavi</span>
+            )}
+            {social.linkedin && (
+              <a href={social.linkedin} target="_blank" rel="noopener noreferrer" className={linkClass}>
+                <LinkedinSvg className="w-4 h-4 shrink-0" filled />
+                <span>LinkedIn</span>
               </a>
-            </div>
-            <div className="col-span-12 md:col-span-6 bg-neutral-800 text-gray-100 rounded-xl">
-              <a
-                href="https://github.com/alimortazavi-pr"
-                target="_blank"
-                className="flex items-center justify-between p-3"
-              >
-                <GitHubSvg className="w-5 h-5" filled />
-                <span>github.com/alimortazavi-pr</span>
+            )}
+            {social.github && (
+              <a href={social.github} target="_blank" rel="noopener noreferrer" className={linkClass}>
+                <GitHubSvg className="w-4 h-4 shrink-0" filled />
+                <span>GitHub</span>
               </a>
-            </div>
-            <div className="col-span-12 md:col-span-6 bg-neutral-800 text-gray-100 rounded-xl">
-              <a
-                href="https://www.instagram.com/alimortazavi.dev"
-                target="_blank"
-                className="flex items-center justify-between p-3"
-              >
-                <Instagram className="w-5 h-5" variant="Bold" />
-                <span>alimortazavi.dev</span>
+            )}
+            {social.instagram && (
+              <a href={social.instagram} target="_blank" rel="noopener noreferrer" className={linkClass}>
+                <Instagram className="w-4 h-4 shrink-0" variant="Bold" />
+                <span>Instagram</span>
               </a>
-            </div>
-            <div className="col-span-12 md:col-span-6 bg-neutral-800 text-gray-100 rounded-xl">
-              <a
-                href="https://t.me/alimortazavi_dev"
-                target="_blank"
-                className="flex items-center justify-between p-3"
-              >
-                <TelegramSvg className="w-5 h-5 rounded-full" filled />
-                <span>t.me/alimortazavi_dev</span>
+            )}
+            {social.telegram && (
+              <a href={social.telegram} target="_blank" rel="noopener noreferrer" className={linkClass}>
+                <TelegramSvg className="w-4 h-4 shrink-0" filled />
+                <span>Telegram</span>
               </a>
-            </div>
+            )}
           </div>
-          <hr className="border-neutral-600 my-4" />
-          <div className="w-full mb-4">
-            <FormControl variant={"floating"} className="mb-3">
-              <Textarea
-                placeholder=" "
-                name="message"
-                value={form.message}
-                onChange={inputHandler}
-                minH="105px"
-                className="!rounded-xl !text-gray-100"
-              />
-              <FormLabel>
-                <span className="text-sm lg:text-[15px] text-c70 font-normal">
-                  Message me right now :)
-                </span>
-              </FormLabel>
-            </FormControl>
-            <Button
-              isLoading={isLoading}
-              variant={"outline"}
-              className="w-full"
-              colorScheme="violet"
-              onClick={sendMessage}
-            >
-              Send
+          <div className="border-t border-white/[0.06] pt-5 space-y-3">
+            <Textarea
+              label="Your message"
+              name="message"
+              placeholder="Tell me about your project..."
+              value={form.message}
+              onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setForm({ message: e.target.value })}
+              rows={4}
+            />
+            <Button className="w-full" isLoading={isLoading} onClick={sendMessage}>
+              <Send2 size={18} variant="Bold" />
+              Send Message
             </Button>
           </div>
         </ModalBody>

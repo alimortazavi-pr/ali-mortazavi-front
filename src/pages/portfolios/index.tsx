@@ -1,80 +1,66 @@
-import Head from "next/head";
 import type { FC } from "react";
 import Link from "next/link";
-import Image from "next/image";
-import { motion } from "framer-motion";
-
 import { IPortfolio } from "@/common/interfaces/portfolios.interface";
 import { thePortfoliosProps } from "@/common/types/portfolios.type";
 import NavBar from "@/components/layouts/NavBar";
+import SEOHead from "@/components/seo/SEOHead";
+import PageHeader from "@/components/ui/PageHeader";
+import Reveal from "@/components/ui/Reveal";
+import PortfolioCard from "@/components/ui/PortfolioCard";
+import { Button } from "@/components/ui/Button";
+import { useSite } from "@/context/SiteContext";
 import api from "@/common/api";
-import { assetUrl } from "@/common/utils/image";
-import { SITE } from "@/common/constants";
+import { withSiteSettings } from "@/lib/withSiteSettings";
 
-export const ThePortfolios: FC<thePortfoliosProps> = ({ portfolios }) => (
+export const ThePortfolios: FC<thePortfoliosProps> = ({ portfolios }) => {
+  const { pages } = useSite();
+  const description = `${portfolios.length} projects — ${pages.portfolios.description}`;
+
+  return (
   <div>
-    <Head>
-      <title>{SITE.name} | Portfolios</title>
-    </Head>
+    <SEOHead
+      title="Projects"
+      description={description}
+      path="/portfolios"
+    />
     <NavBar />
 
-    <div className="mt-6 mb-8">
-      <h1 className="text-3xl md:text-4xl font-bold text-white">
-        My <span className="text-gradient">Projects</span>
-      </h1>
-      <p className="text-gray-500 mt-2">A collection of web applications I&apos;ve built</p>
-    </div>
+    <PageHeader
+      label={pages.portfolios.label}
+      title={pages.portfolios.title}
+      highlight={pages.portfolios.highlight}
+      description={description}
+    />
 
-    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
-      {portfolios.map((portfolio, i) => (
-        <motion.div
-          key={portfolio._id}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: i * 0.05 }}
-        >
-          <Link
-            href={`/portfolios/${portfolio.slug}`}
-            className="block h-[320px] relative rounded-2xl overflow-hidden group glass glass-hover"
-          >
-            {portfolio.images?.[0] && (
-              <Image
-                alt={portfolio.title}
-                src={assetUrl(portfolio.images[0])}
-                fill
-                className="object-cover transition-transform duration-500 group-hover:scale-105"
-              />
-            )}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
-            <div className="absolute bottom-0 left-0 right-0 p-5">
-              <h2 className="text-xl font-bold text-white group-hover:text-violet-300 transition-colors">
-                {portfolio.title}
-              </h2>
-              <p className="text-sm text-gray-400 mt-1 line-clamp-2">
-                {portfolio.description}
-              </p>
-            </div>
-          </Link>
-        </motion.div>
-      ))}
-    </div>
+    {portfolios.length === 0 ? (
+      <div className="glass rounded-3xl p-16 text-center mb-12">
+        <p className="text-gray-500 mb-4">No projects yet.</p>
+        <Link href="/">
+          <Button variant="secondary">← Back to home</Button>
+        </Link>
+      </div>
+    ) : (
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 pb-12">
+        {portfolios.map((portfolio, i) => (
+          <Reveal key={portfolio._id} delay={i * 0.05}>
+            <PortfolioCard portfolio={portfolio} />
+          </Reveal>
+        ))}
+      </div>
+    )}
   </div>
-);
+  );
+};
 
-export async function getStaticProps() {
+export const getStaticProps = withSiteSettings<thePortfoliosProps>(async () => {
   let portfolios: IPortfolio[] = [];
-
   try {
     const response = await api.get(`/portfolios`);
     portfolios = response.data.portfolios;
   } catch (error: unknown) {
     console.error("Failed to fetch portfolios:", error);
   }
-
-  return {
-    props: { portfolios, totalPages: 0 },
-    revalidate: 10,
-  };
-}
+  return { props: { portfolios, totalPages: 0 }, revalidate: 30 };
+});
 
 export default ThePortfolios;

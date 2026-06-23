@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { FC, useEffect, useState } from "react";
 import Link from "next/link";
-import { Briefcase, MessageSquare, Plus, TrendingUp } from "lucide-react";
+import { Briefcase, Globe, MessageSquare, Plus, TrendingUp } from "lucide-react";
 import AdminLayout from "@/components/admin/AdminLayout";
 import { Card, CardContent, CardHeader } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
@@ -74,6 +74,12 @@ const AdminDashboard: FC = () => {
             <h1 className="text-2xl md:text-3xl font-bold text-white">Dashboard</h1>
             <p className="text-gray-500 mt-1">Overview of your portfolio site</p>
           </div>
+          <Link href="/admin/site-content">
+            <Button variant="secondary">
+              <Globe className="w-4 h-4" />
+              Edit Site Content
+            </Button>
+          </Link>
           <Link href="/admin/portfolios/new">
             <Button>
               <Plus className="w-4 h-4" />

@@ -80,15 +80,15 @@ export default function Document() {
           name="msapplication-TileImage"
           content="assets/icons/ms-icon-144x144.png"
         />
-        <meta name="theme-color" content="#171717" />
+        <meta name="theme-color" content="#0a0a0f" />
         <meta
           name="description"
           content="You can see all my portfolios in more detail with a beautiful design on this website."
         ></meta>
         <meta name="author" content="Ali Mortazavi"></meta>
       </Head>
-      <body className="bg-[#0F0F0F]">
-        <ColorModeScript initialColorMode={"light"} />
+      <body className="bg-[#0a0a0f]">
+        <ColorModeScript initialColorMode="dark" />
         <Main />
         <NextScript />
       </body>

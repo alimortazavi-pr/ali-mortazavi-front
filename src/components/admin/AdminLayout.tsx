@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import {
   Briefcase,
+  Globe,
   LayoutDashboard,
   LogOut,
   MessageSquare,
@@ -15,9 +16,10 @@ import { hydrateAuth } from "@/store/auth";
 
 const navItems = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
+  { href: "/admin/site-content", label: "Site Content", icon: Globe },
   { href: "/admin/portfolios", label: "Portfolios", icon: Briefcase },
   { href: "/admin/messages", label: "Messages", icon: MessageSquare },
-  { href: "/admin/settings", label: "Settings", icon: Settings },
+  { href: "/admin/settings", label: "My Profile", icon: Settings },
 ];
 
 export const AdminLayout: FC<{ children: ReactNode }> = ({ children }) => {

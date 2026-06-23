@@ -15,10 +15,17 @@ import "react-toastify/dist/ReactToastify.css";
 import "@/assets/styles/nprogress.css";
 
 import GlobalLayout from "@/components/GlobalLayout";
+import { SiteProvider } from "@/context/SiteContext";
+import { DEFAULT_SITE_SETTINGS } from "@/common/data/default-site-settings";
+import { ISiteSettings } from "@/common/interfaces/site-settings.interface";
 import store from "@/store";
 import chakraDarkTheme from "@/common/styles/chakra-ui/chakraDarkTheme";
 
-export default function App({ Component, pageProps }: AppProps) {
+type AppPropsWithSite = AppProps & {
+  pageProps: AppProps["pageProps"] & { siteSettings?: ISiteSettings };
+};
+
+export default function App({ Component, pageProps }: AppPropsWithSite) {
   const router = useRouter();
   const isAdminRoute = router.pathname.startsWith("/admin");
 
@@ -58,18 +65,16 @@ export default function App({ Component, pageProps }: AppProps) {
       </Script>
 
       <Provider store={store}>
-        <ChakraProvider theme={chakraDarkTheme}>
-          {isAdminRoute ? (
-            content
-          ) : (
-            <GlobalLayout>{content}</GlobalLayout>
-          )}
-        </ChakraProvider>
-        <ToastContainer
-          theme="dark"
-          position="top-center"
-          toastClassName="!bg-[#1a1a24] !text-white !border !border-white/10 !rounded-xl"
-        />
+        <SiteProvider settings={pageProps.siteSettings ?? DEFAULT_SITE_SETTINGS}>
+          <ChakraProvider theme={chakraDarkTheme}>
+            {isAdminRoute ? content : <GlobalLayout>{content}</GlobalLayout>}
+          </ChakraProvider>
+          <ToastContainer
+            theme="dark"
+            position="top-center"
+            toastClassName="!bg-[#1a1a24] !text-white !border !border-white/10 !rounded-xl"
+          />
+        </SiteProvider>
       </Provider>
     </>
   );
