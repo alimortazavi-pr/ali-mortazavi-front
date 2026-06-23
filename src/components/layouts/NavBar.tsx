@@ -56,6 +56,17 @@ export const NavBar: FC = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [menuOpen]);
 
+  useEffect(() => {
+    if (menuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [menuOpen]);
+
   function handleNavAction(action: string) {
     setMenuOpen(false);
     if (action === "resume") downloadResume(resumeUrl);
@@ -66,18 +77,19 @@ export const NavBar: FC = () => {
     <>
       <nav
         className={cn(
-          "rounded-2xl sticky top-3 z-50 transition-all duration-500",
+          "rounded-2xl sticky z-50 transition-all duration-500",
+          "top-[max(0.5rem,env(safe-area-inset-top))]",
           scrolled
             ? "glass shadow-lg shadow-black/20 border-white/[0.1]"
             : "bg-transparent border border-transparent"
         )}
       >
-        <div className="flex items-center justify-between px-4 md:px-5 py-3">
-          <Link href="/" className="group flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-500 to-cyan-500 flex items-center justify-center text-xs font-bold text-white font-display">
-              AM
+        <div className="flex items-center justify-between px-3 sm:px-4 md:px-5 py-2.5 sm:py-3">
+          <Link href="/" className="group flex items-center gap-2 min-w-0">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-500 to-cyan-500 flex items-center justify-center text-xs font-bold text-white font-display shrink-0">
+              {firstName.charAt(0)}{lastName.charAt(0) || "M"}
             </div>
-            <span className="text-base font-bold tracking-tight font-display hidden sm:block">
+            <span className="text-sm sm:text-base font-bold tracking-tight font-display truncate">
               <span className="text-gray-500 group-hover:text-violet-400 transition-colors">{firstName}</span>
               <span className="text-white"> {lastName}</span>
             </span>
@@ -126,7 +138,9 @@ export const NavBar: FC = () => {
 
           <button
             onClick={() => setMenuOpen(!menuOpen)}
-            className="lg:hidden flex items-center justify-center w-10 h-10 rounded-xl text-gray-300 hover:bg-white/5 transition-colors"
+            aria-expanded={menuOpen}
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
+            className="lg:hidden flex items-center justify-center w-10 h-10 rounded-xl text-gray-300 hover:bg-white/5 transition-colors shrink-0"
           >
             {menuOpen ? <CloseCircle size={22} /> : <HambergerMenu size={22} />}
           </button>
@@ -142,16 +156,20 @@ export const NavBar: FC = () => {
               transition={{ duration: 0.25 }}
               className="lg:hidden overflow-hidden border-t border-white/[0.06]"
             >
-              <div className="p-2 space-y-1">
+              <div className="p-2 space-y-1 pb-3">
                 {navLinks.map((item) => {
                   const Icon = item.icon;
+                  const active = item.href ? isActive(item.href) : false;
                   if (item.href) {
                     return (
                       <Link
                         key={item.label}
                         href={item.href}
                         onClick={() => setMenuOpen(false)}
-                        className="flex items-center justify-between px-4 py-3 rounded-xl text-gray-300 hover:bg-white/5 transition-colors"
+                        className={cn(
+                          "flex items-center justify-between px-4 py-3.5 rounded-xl text-sm transition-colors",
+                          active ? "text-white bg-white/[0.08]" : "text-gray-300 hover:bg-white/5"
+                        )}
                       >
                         <span className="text-sm">{item.label}</span>
                         <Icon size={18} />

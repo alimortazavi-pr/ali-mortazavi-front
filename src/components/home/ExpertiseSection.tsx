@@ -17,7 +17,7 @@ export const ExpertiseSection: FC = () => {
   const { expertise } = useSite();
 
   return (
-    <section id="expertise" className="py-4">
+    <section id="expertise" className="min-w-0">
       <Reveal>
         <SectionHeading
           label="What I Do"
@@ -31,7 +31,7 @@ export const ExpertiseSection: FC = () => {
           const Icon = icons[item.icon as keyof typeof icons] ?? Code;
           return (
             <Reveal key={`${item.title}-${i}`} delay={i * 0.1}>
-              <div className={cn("group glass rounded-2xl p-6 md:p-7 h-full transition-all duration-500 hover:bg-white/[0.05] hover:shadow-2xl", accents[i % accents.length])}>
+              <div className={cn("group glass rounded-2xl p-5 sm:p-6 md:p-7 h-full transition-all duration-500 hover:bg-white/[0.05] hover:shadow-2xl min-w-0", accents[i % accents.length])}>
                 <div className="w-11 h-11 rounded-xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
                   <Icon className="w-5 h-5 text-violet-400" />
                 </div>

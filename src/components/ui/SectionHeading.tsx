@@ -28,7 +28,7 @@ export const SectionHeading: FC<SectionHeadingProps> = ({
     <span className="inline-block text-xs font-semibold tracking-[0.2em] uppercase text-violet-400 mb-3">
       {label}
     </span>
-    <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white tracking-tight">
+    <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white tracking-tight text-balance break-words">
       {title}{" "}
       {highlight && <span className="text-gradient">{highlight}</span>}
     </h2>

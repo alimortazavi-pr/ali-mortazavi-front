@@ -42,9 +42,9 @@ const AboutPage: FC = () => {
         description={pages.about.description || profile.bio}
       />
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 pb-12">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 sm:gap-6 pb-10 sm:pb-12 min-w-0">
         <Reveal className="lg:col-span-2">
-          <div className="glass rounded-3xl p-6 md:p-8 space-y-5">
+          <div className="glass rounded-2xl sm:rounded-3xl p-5 sm:p-6 md:p-8 space-y-4 sm:space-y-5 min-w-0">
             {aboutParagraphs.map((p, i) => (
               <p key={i} className="text-gray-400 leading-relaxed text-base md:text-lg">
                 {p}
@@ -64,14 +64,14 @@ const AboutPage: FC = () => {
         </Reveal>
 
         <Reveal delay={0.1}>
-          <div className="glass rounded-3xl p-6 md:p-8 space-y-6">
+          <div className="glass rounded-2xl sm:rounded-3xl p-5 sm:p-6 md:p-8 space-y-5 sm:space-y-6 lg:sticky lg:top-24">
             <div>
               <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">Role</p>
               <p className="text-white font-semibold">{profile.title}</p>
             </div>
             <div>
               <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">Email</p>
-              <a href={`mailto:${profile.email}`} className="text-violet-400 hover:text-violet-300 text-sm">
+              <a href={`mailto:${profile.email}`} className="text-violet-400 hover:text-violet-300 text-sm break-all">
                 {profile.email}
               </a>
             </div>

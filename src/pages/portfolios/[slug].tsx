@@ -23,7 +23,7 @@ const SinglePortfolio: FC<singlePortfolioProps> = ({ portfolio }) => (
     />
     <NavBar />
 
-    <div className="py-6 md:py-10 space-y-6">
+    <div className="py-4 sm:py-6 md:py-10 space-y-5 sm:space-y-6 min-w-0">
       <Reveal>
         <Link
           href="/portfolios"
@@ -45,7 +45,7 @@ const SinglePortfolio: FC<singlePortfolioProps> = ({ portfolio }) => (
           freeMode
           pagination={{ clickable: true }}
           modules={[FreeMode, Pagination]}
-          className="w-full h-[260px] md:h-[380px] portfolio-detail-swiper rounded-2xl overflow-hidden"
+          className="w-full h-[220px] sm:h-[280px] md:h-[380px] portfolio-detail-swiper rounded-2xl overflow-hidden"
         >
           {portfolio.images?.map((img) => (
             <SwiperSlide key={img} className="rounded-2xl overflow-hidden relative">
@@ -61,10 +61,10 @@ const SinglePortfolio: FC<singlePortfolioProps> = ({ portfolio }) => (
       </Reveal>
 
       <Reveal delay={0.2}>
-        <div className="glass rounded-3xl p-6 md:p-10">
-          <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-6">
-            <div>
-              <h1 className="font-display text-3xl md:text-5xl font-bold text-white">
+        <div className="glass rounded-2xl sm:rounded-3xl p-5 sm:p-6 md:p-10 min-w-0">
+          <div className="flex flex-col gap-4 mb-5 sm:mb-6">
+            <div className="min-w-0">
+              <h1 className="font-display text-2xl sm:text-3xl md:text-5xl font-bold text-white break-words">
                 {portfolio.title}
               </h1>
               {portfolio.startDate && (
@@ -73,8 +73,8 @@ const SinglePortfolio: FC<singlePortfolioProps> = ({ portfolio }) => (
                 </p>
               )}
             </div>
-            <Link href={portfolio.link} target="_blank">
-              <Button>
+            <Link href={portfolio.link} target="_blank" className="w-full sm:w-auto">
+              <Button className="w-full sm:w-auto">
                 <ExportSquare size={18} />
                 Live Demo
               </Button>
@@ -117,12 +117,12 @@ const SinglePortfolio: FC<singlePortfolioProps> = ({ portfolio }) => (
             </div>
           </div>
 
-          <div className="mt-8 pt-6 border-t border-white/[0.06] flex items-center justify-between">
-            <span className="text-sm text-gray-600 truncate max-w-[60%]">{portfolio.link}</span>
+          <div className="mt-6 sm:mt-8 pt-5 sm:pt-6 border-t border-white/[0.06] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+            <span className="text-xs sm:text-sm text-gray-600 break-all">{portfolio.link}</span>
             <Link
               href={portfolio.link}
               target="_blank"
-              className="flex items-center gap-1.5 text-violet-400 hover:text-violet-300 text-sm font-medium transition-colors"
+              className="flex items-center gap-1.5 text-violet-400 hover:text-violet-300 text-sm font-medium transition-colors shrink-0"
             >
               Visit Website
               <ArrowRight size={16} />

@@ -14,12 +14,12 @@ import { theHomeProps } from "@/common/types/layouts.type";
 import { withSiteSettings } from "@/lib/withSiteSettings";
 
 export const TheHome: FC<theHomeProps> = ({ portfolios }) => (
-  <div className="w-full">
+  <div className="w-full min-w-0">
     <SEOHead />
     <NavBar />
-    <HeroSection />
-    <TechMarquee />
-    <div className="space-y-16 md:space-y-24 py-8 md:py-12">
+    <div className="flex flex-col gap-10 sm:gap-12 md:gap-20 pb-6 md:pb-12">
+      <HeroSection />
+      <TechMarquee />
       <ExpertiseSection />
       <PortfoliosSection portfolios={portfolios} />
       <ExperienceSection />

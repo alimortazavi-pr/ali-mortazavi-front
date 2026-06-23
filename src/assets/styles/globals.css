@@ -40,10 +40,11 @@ code, pre, .font-mono {
     @apply border-border;
   }
   body {
-    @apply bg-[#0a0a0f] text-foreground antialiased;
+    @apply bg-[#0a0a0f] text-foreground antialiased overflow-x-clip;
   }
   html {
     scroll-behavior: smooth;
+    overflow-x: clip;
   }
 }
 
@@ -103,6 +104,20 @@ code, pre, .font-mono {
 
 .animate-marquee {
   animation: marquee 30s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee {
+    animation: none;
+  }
+}
+
+.portfolio-detail-swiper .swiper-pagination-bullet {
+  background: rgba(139, 92, 246, 0.35);
+  opacity: 1;
+}
+.portfolio-detail-swiper .swiper-pagination-bullet-active {
+  background: rgba(139, 92, 246, 0.9);
 }
 
 @keyframes float {

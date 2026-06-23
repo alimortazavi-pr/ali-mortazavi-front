@@ -23,8 +23,8 @@ export const Footer: FC = () => {
   ];
 
   return (
-    <footer className="mt-12 pt-8 border-t border-white/[0.06]">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+    <footer className="mt-10 sm:mt-12 pt-6 sm:pt-8 border-t border-white/[0.06] min-w-0">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 mb-6 sm:mb-8">
         <div>
           <Link href="/" className="text-xl font-bold font-display">
             <span className="text-gray-500">{profile.name.split(" ")[0]}</span>
@@ -60,12 +60,12 @@ export const Footer: FC = () => {
               </a>
             ))}
           </div>
-          <a href={`mailto:${profile.email}`} className="text-sm text-gray-500 hover:text-violet-400 transition-colors mt-3 inline-block">
+          <a href={`mailto:${profile.email}`} className="text-sm text-gray-500 hover:text-violet-400 transition-colors mt-3 inline-block break-all">
             {profile.email}
           </a>
         </div>
       </div>
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-2 py-4 border-t border-white/[0.04] text-xs text-gray-600">
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-3 py-4 border-t border-white/[0.04] text-xs text-gray-600 text-center sm:text-left">
         <span>© {new Date().getFullYear()} {profile.name}. All rights reserved.</span>
         <span className="flex items-center gap-1">
           Built with <Heart className="w-3 h-3 text-rose-500 fill-rose-500" /> using Next.js & TypeScript

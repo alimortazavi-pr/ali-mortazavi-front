@@ -9,7 +9,7 @@ import PortfolioCard from "@/components/ui/PortfolioCard";
 export const PortfoliosSection: FC<portfoliosSectionProps> = ({ portfolios }) => (
   <section id="portfolios">
     <Reveal>
-      <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8">
+      <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-6 sm:mb-8">
         <SectionHeading
           label="Portfolio"
           title="Featured"
@@ -19,7 +19,7 @@ export const PortfoliosSection: FC<portfoliosSectionProps> = ({ portfolios }) =>
         />
         <Link
           href="/portfolios"
-          className="flex items-center gap-1.5 text-sm text-violet-400 hover:text-violet-300 transition-colors shrink-0 mb-8 sm:mb-10"
+          className="flex items-center gap-1.5 text-sm text-violet-400 hover:text-violet-300 transition-colors shrink-0 self-start sm:self-auto"
         >
           View all projects
           <ArrowRight2 size={16} />
@@ -35,7 +35,7 @@ export const PortfoliosSection: FC<portfoliosSectionProps> = ({ portfolios }) =>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         {portfolios.map((portfolio, i) => (
           <Reveal key={portfolio._id} delay={i * 0.1}>
-            <PortfolioCard portfolio={portfolio} className="h-[320px]" />
+            <PortfolioCard portfolio={portfolio} className="h-[280px] sm:h-[300px] md:h-[320px]" />
           </Reveal>
         ))}
       </div>

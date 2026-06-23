@@ -85,18 +85,18 @@ const ContactPage: FC = () => {
                 href={item.href}
                 target={item.href.startsWith("http") ? "_blank" : undefined}
                 rel="noopener noreferrer"
-                className="flex items-center gap-4 p-4 rounded-xl bg-white/[0.02] border border-white/[0.06] hover:border-violet-500/30 hover:bg-white/[0.04] transition-all group"
+                className="flex items-center gap-4 p-3.5 sm:p-4 rounded-xl bg-white/[0.02] border border-white/[0.06] hover:border-violet-500/30 hover:bg-white/[0.04] transition-all group min-w-0"
               >
-                <div className="w-10 h-10 rounded-xl bg-violet-500/10 flex items-center justify-center text-violet-400 group-hover:scale-110 transition-transform">
+                <div className="w-10 h-10 rounded-xl bg-violet-500/10 flex items-center justify-center text-violet-400 group-hover:scale-110 transition-transform shrink-0">
                   {item.svg ? (
                     <item.icon className="w-5 h-5" filled />
                   ) : (
                     <item.icon className="w-5 h-5" variant="Bold" />
                   )}
                 </div>
-                <div>
+                <div className="min-w-0 flex-1">
                   <p className="text-xs text-gray-500">{item.text}</p>
-                  <p className="text-sm text-white">{item.label}</p>
+                  <p className="text-sm text-white break-all">{item.label}</p>
                 </div>
               </a>
             ))}
